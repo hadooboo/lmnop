@@ -57,8 +57,3 @@ type UserTop100 struct {
 	Count int64
 	Items []*Problem
 }
-
-type Problem struct {
-	ProblemID int64
-	Level     Level
-}

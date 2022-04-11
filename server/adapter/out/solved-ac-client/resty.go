@@ -18,6 +18,7 @@ const (
 	pathGetUserProblemStats    = "/user/problem_stats"
 	pathGetUserProblemTagStats = "/user/problem_tag_stats"
 	pathGetUserTop100          = "/user/top_100"
+	pathSearchProblem          = "/search/problem"
 )
 
 type RestyAdapter struct {
@@ -110,6 +111,42 @@ func (r *RestyAdapter) GetUserTop100(userID string) (*domain.UserTop100, error) 
 		return result.mapToDomainEntity(), nil
 	case http.StatusNotFound:
 		return nil, domain.ErrNotFoundUser
+	default:
+		return nil, domain.ErrUnexpected
+	}
+}
+
+func (r *RestyAdapter) GetProblemsByTier(tier domain.Tier, page int) (*domain.Problems, error) {
+	var result problemsByTierResp
+	resp, err := r.client.R().
+		SetQueryString(fmt.Sprintf("query=solvable:true+tier:%v&page=%v&sort=solved&direction=desc", tier, page)).
+		ForceContentType("application/json").
+		SetResult(&result).
+		Get(pathSearchProblem)
+	if err != nil {
+		return nil, err
+	}
+	switch resp.StatusCode() {
+	case http.StatusOK:
+		return result.mapToDomainEntity(), nil
+	default:
+		return nil, domain.ErrUnexpected
+	}
+}
+
+func (r *RestyAdapter) GetProblemsByTierAndSolvedBy(tier domain.Tier, solvedBy string, page int) (*domain.Problems, error) {
+	var result problemsByTierAndSolvedByResp
+	resp, err := r.client.R().
+		SetQueryString(fmt.Sprintf("query=solvable:true+tier:%v+solved_by:%v&page=%v&sort=solved&direction=desc", tier, solvedBy, page)).
+		ForceContentType("application/json").
+		SetResult(&result).
+		Get(pathSearchProblem)
+	if err != nil {
+		return nil, err
+	}
+	switch resp.StatusCode() {
+	case http.StatusOK:
+		return result.mapToDomainEntity(), nil
 	default:
 		return nil, domain.ErrUnexpected
 	}

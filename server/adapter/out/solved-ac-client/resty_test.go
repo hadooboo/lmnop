@@ -81,3 +81,15 @@ func TestGetUserTop100FailNotFoundUser(t *testing.T) {
 	_, err := adapter.GetUserTop100(userID)
 	assert.Equal(t, err, domain.ErrNotFoundUser)
 }
+
+func TestGetProblemsByTierSuccess(t *testing.T) {
+	problems, err := adapter.GetProblemsByTier(domain.Gold4Tier, 1)
+	assert.NoError(t, err)
+	t.Log(spew.Sdump(problems))
+}
+
+func TestGetProblemsByTierAndSolvedBySuccess(t *testing.T) {
+	problems, err := adapter.GetProblemsByTierAndSolvedBy(domain.Gold4Tier, "njh21598", 1)
+	assert.NoError(t, err)
+	t.Log(spew.Sdump(problems))
+}

@@ -58,3 +58,13 @@ type problemResp struct {
 	ProblemID int64 `json:"problemId"`
 	Level     int   `json:"level"`
 }
+
+type problemsByTierResp struct {
+	Count int64          `json:"count"`
+	Items []*problemResp `json:"items"`
+}
+
+type problemsByTierAndSolvedByResp struct {
+	Count int64          `json:"count"`
+	Items []*problemResp `json:"items"`
+}

@@ -82,3 +82,25 @@ func (r problemResp) mapToDomainEntity() *domain.Problem {
 		Level:     domain.Level(r.Level),
 	}
 }
+
+func (r problemsByTierResp) mapToDomainEntity() *domain.Problems {
+	l := make([]*domain.Problem, len(r.Items))
+	for i, v := range r.Items {
+		l[i] = v.mapToDomainEntity()
+	}
+	return &domain.Problems{
+		Count: r.Count,
+		Items: l,
+	}
+}
+
+func (r problemsByTierAndSolvedByResp) mapToDomainEntity() *domain.Problems {
+	l := make([]*domain.Problem, len(r.Items))
+	for i, v := range r.Items {
+		l[i] = v.mapToDomainEntity()
+	}
+	return &domain.Problems{
+		Count: r.Count,
+		Items: l,
+	}
+}
