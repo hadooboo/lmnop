@@ -42,3 +42,43 @@ func (r userProblemStatResp) mapToDomainEntity() *domain.UserProblemStat {
 		Exp:     r.Exp,
 	}
 }
+
+func (r userProblemTagStatsResp) mapToDomainEntity() *domain.UserProblemTagStats {
+	l := make([]*domain.UserProblemTagStat, len(r.Items))
+	for i, v := range r.Items {
+		l[i] = v.mapToDomainEntity()
+	}
+	return &domain.UserProblemTagStats{
+		Count: r.Count,
+		Items: l,
+	}
+}
+
+func (r userProblemTagStatResp) mapToDomainEntity() *domain.UserProblemTagStat {
+	return &domain.UserProblemTagStat{
+		Tag:     r.Tag.Key,
+		Total:   r.Total,
+		Solved:  r.Solved,
+		Partial: r.Partial,
+		Tried:   r.Tried,
+		Exp:     r.Exp,
+	}
+}
+
+func (r userTop100Resp) mapToDomainEntity() *domain.UserTop100 {
+	l := make([]*domain.Problem, len(r.Items))
+	for i, v := range r.Items {
+		l[i] = v.mapToDomainEntity()
+	}
+	return &domain.UserTop100{
+		Count: r.Count,
+		Items: l,
+	}
+}
+
+func (r problemResp) mapToDomainEntity() *domain.Problem {
+	return &domain.Problem{
+		ProblemID: r.ProblemID,
+		Level:     domain.Level(r.Level),
+	}
+}

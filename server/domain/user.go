@@ -38,3 +38,27 @@ type UserProblemStat struct {
 	Tried   int64
 	Exp     int64
 }
+
+type UserProblemTagStats struct {
+	Count int64
+	Items []*UserProblemTagStat
+}
+
+type UserProblemTagStat struct {
+	Tag     string
+	Total   int64
+	Solved  int64
+	Partial int64
+	Tried   int64
+	Exp     int64
+}
+
+type UserTop100 struct {
+	Count int64
+	Items []*Problem
+}
+
+type Problem struct {
+	ProblemID int64
+	Level     Level
+}

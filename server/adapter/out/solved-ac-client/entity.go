@@ -30,3 +30,31 @@ type userProblemStatResp struct {
 	Tried   int64 `json:"tried"`
 	Exp     int64 `json:"exp"`
 }
+
+type userProblemTagStatsResp struct {
+	Count int64 `json:"count"`
+	Items []*userProblemTagStatResp
+}
+
+type userProblemTagStatResp struct {
+	Tag     *tagResp `json:"tag"`
+	Total   int64    `json:"total"`
+	Solved  int64    `json:"solved"`
+	Partial int64    `json:"partial"`
+	Tried   int64    `json:"tried"`
+	Exp     int64    `json:"exp"`
+}
+
+type tagResp struct {
+	Key string `json:"key"`
+}
+
+type userTop100Resp struct {
+	Count int64          `json:"count"`
+	Items []*problemResp `json:"items"`
+}
+
+type problemResp struct {
+	ProblemID int64 `json:"problemId"`
+	Level     int   `json:"level"`
+}

@@ -55,3 +55,29 @@ func TestGetUserProblemStatsFailNotFoundUser(t *testing.T) {
 	_, err := adapter.GetUserProblemStats(userID)
 	assert.Equal(t, err, domain.ErrNotFoundUser)
 }
+
+func TestGetUserProblemTagStatsSuccess(t *testing.T) {
+	userID := "njh21598"
+	userProblemTagStats, err := adapter.GetUserProblemTagStats(userID)
+	assert.NoError(t, err)
+	t.Log(spew.Sdump(userProblemTagStats))
+}
+
+func TestGetUserProblemTagStatsFailNotFoundUser(t *testing.T) {
+	userID := ""
+	_, err := adapter.GetUserProblemTagStats(userID)
+	assert.Equal(t, err, domain.ErrNotFoundUser)
+}
+
+func TestGetUserTop100Success(t *testing.T) {
+	userID := "njh21598"
+	userTop100, err := adapter.GetUserTop100(userID)
+	assert.NoError(t, err)
+	t.Log(spew.Sdump(userTop100))
+}
+
+func TestGetUserTop100FailNotFoundUser(t *testing.T) {
+	userID := ""
+	_, err := adapter.GetUserTop100(userID)
+	assert.Equal(t, err, domain.ErrNotFoundUser)
+}

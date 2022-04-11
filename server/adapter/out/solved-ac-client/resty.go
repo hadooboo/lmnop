@@ -14,8 +14,10 @@ const (
 
 	defaultRetryCount = 3
 
-	pathGetUser             = "/user/show"
-	pathGetUserProblemStats = "/user/problem_stats"
+	pathGetUser                = "/user/show"
+	pathGetUserProblemStats    = "/user/problem_stats"
+	pathGetUserProblemTagStats = "/user/problem_tag_stats"
+	pathGetUserTop100          = "/user/top_100"
 )
 
 type RestyAdapter struct {
@@ -60,6 +62,46 @@ func (r *RestyAdapter) GetUserProblemStats(userID string) (*domain.UserProblemSt
 		ForceContentType("application/json").
 		SetResult(&result).
 		Get(pathGetUserProblemStats)
+	if err != nil {
+		return nil, err
+	}
+	switch resp.StatusCode() {
+	case http.StatusOK:
+		return result.mapToDomainEntity(), nil
+	case http.StatusNotFound:
+		return nil, domain.ErrNotFoundUser
+	default:
+		return nil, domain.ErrUnexpected
+	}
+}
+
+func (r *RestyAdapter) GetUserProblemTagStats(userID string) (*domain.UserProblemTagStats, error) {
+	var result userProblemTagStatsResp
+	resp, err := r.client.R().
+		SetQueryString(fmt.Sprintf("handle=%v", userID)).
+		ForceContentType("application/json").
+		SetResult(&result).
+		Get(pathGetUserProblemTagStats)
+	if err != nil {
+		return nil, err
+	}
+	switch resp.StatusCode() {
+	case http.StatusOK:
+		return result.mapToDomainEntity(), nil
+	case http.StatusNotFound:
+		return nil, domain.ErrNotFoundUser
+	default:
+		return nil, domain.ErrUnexpected
+	}
+}
+
+func (r *RestyAdapter) GetUserTop100(userID string) (*domain.UserTop100, error) {
+	var result userTop100Resp
+	resp, err := r.client.R().
+		SetQueryString(fmt.Sprintf("handle=%v", userID)).
+		ForceContentType("application/json").
+		SetResult(&result).
+		Get(pathGetUserTop100)
 	if err != nil {
 		return nil, err
 	}
