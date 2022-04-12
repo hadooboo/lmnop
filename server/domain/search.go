@@ -1,11 +1,11 @@
 package domain
 
-type Problems struct {
+type ProblemsDTO struct {
 	Count int64
-	Items []*Problem
+	Items []*ProblemDTO
 }
 
-type Problem struct {
+type ProblemDTO struct {
 	ProblemID int64
 	Level     Level
 }

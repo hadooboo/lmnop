@@ -1,6 +1,6 @@
 package domain
 
-type User struct {
+type UserDTO struct {
 	Handle              string
 	Bio                 string
 	SolvedCount         int64
@@ -28,9 +28,9 @@ const (
 	Gold   ClassDecoration = "gold"
 )
 
-type UserProblemStats []*UserProblemStat
+type UserProblemStatsDTO []*UserProblemStatDTO
 
-type UserProblemStat struct {
+type UserProblemStatDTO struct {
 	Level   Level
 	Total   int64
 	Solved  int64
@@ -39,12 +39,12 @@ type UserProblemStat struct {
 	Exp     int64
 }
 
-type UserProblemTagStats struct {
+type UserProblemTagStatsDTO struct {
 	Count int64
-	Items []*UserProblemTagStat
+	Items []*UserProblemTagStatDTO
 }
 
-type UserProblemTagStat struct {
+type UserProblemTagStatDTO struct {
 	Tag     string
 	Total   int64
 	Solved  int64
@@ -53,7 +53,7 @@ type UserProblemTagStat struct {
 	Exp     int64
 }
 
-type UserTop100 struct {
+type UserTop100DTO struct {
 	Count int64
-	Items []*Problem
+	Items []*ProblemDTO
 }

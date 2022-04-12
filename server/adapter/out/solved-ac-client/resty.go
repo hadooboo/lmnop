@@ -36,7 +36,7 @@ func NewRestyAdapter() *RestyAdapter {
 	}
 }
 
-func (r *RestyAdapter) GetUser(userID string) (*domain.User, error) {
+func (r *RestyAdapter) GetUser(userID string) (*domain.UserDTO, error) {
 	var result userResp
 	resp, err := r.client.R().
 		SetQueryString(fmt.Sprintf("handle=%v", userID)).
@@ -56,7 +56,7 @@ func (r *RestyAdapter) GetUser(userID string) (*domain.User, error) {
 	}
 }
 
-func (r *RestyAdapter) GetUserProblemStats(userID string) (*domain.UserProblemStats, error) {
+func (r *RestyAdapter) GetUserProblemStats(userID string) (*domain.UserProblemStatsDTO, error) {
 	var result userProblemStatsResp
 	resp, err := r.client.R().
 		SetQueryString(fmt.Sprintf("handle=%v", userID)).
@@ -76,7 +76,7 @@ func (r *RestyAdapter) GetUserProblemStats(userID string) (*domain.UserProblemSt
 	}
 }
 
-func (r *RestyAdapter) GetUserProblemTagStats(userID string) (*domain.UserProblemTagStats, error) {
+func (r *RestyAdapter) GetUserProblemTagStats(userID string) (*domain.UserProblemTagStatsDTO, error) {
 	var result userProblemTagStatsResp
 	resp, err := r.client.R().
 		SetQueryString(fmt.Sprintf("handle=%v", userID)).
@@ -96,7 +96,7 @@ func (r *RestyAdapter) GetUserProblemTagStats(userID string) (*domain.UserProble
 	}
 }
 
-func (r *RestyAdapter) GetUserTop100(userID string) (*domain.UserTop100, error) {
+func (r *RestyAdapter) GetUserTop100(userID string) (*domain.UserTop100DTO, error) {
 	var result userTop100Resp
 	resp, err := r.client.R().
 		SetQueryString(fmt.Sprintf("handle=%v", userID)).
@@ -116,7 +116,7 @@ func (r *RestyAdapter) GetUserTop100(userID string) (*domain.UserTop100, error) 
 	}
 }
 
-func (r *RestyAdapter) GetProblemsByTier(tier domain.Tier, page int) (*domain.Problems, error) {
+func (r *RestyAdapter) GetProblemsByTier(tier domain.Tier, page int) (*domain.ProblemsDTO, error) {
 	var result problemsByTierResp
 	resp, err := r.client.R().
 		SetQueryString(fmt.Sprintf("query=solvable:true+tier:%v&page=%v&sort=solved&direction=desc", tier, page)).
@@ -134,7 +134,7 @@ func (r *RestyAdapter) GetProblemsByTier(tier domain.Tier, page int) (*domain.Pr
 	}
 }
 
-func (r *RestyAdapter) GetProblemsByTierAndSolvedBy(tier domain.Tier, solvedBy string, page int) (*domain.Problems, error) {
+func (r *RestyAdapter) GetProblemsByTierAndSolvedBy(tier domain.Tier, solvedBy string, page int) (*domain.ProblemsDTO, error) {
 	var result problemsByTierAndSolvedByResp
 	resp, err := r.client.R().
 		SetQueryString(fmt.Sprintf("query=solvable:true+tier:%v+solved_by:%v&page=%v&sort=solved&direction=desc", tier, solvedBy, page)).

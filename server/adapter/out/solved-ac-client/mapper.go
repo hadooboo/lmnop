@@ -2,8 +2,8 @@ package solved_ac_client
 
 import "jaehonam.com/lmnop/domain"
 
-func (r userResp) mapToDomainEntity() *domain.User {
-	return &domain.User{
+func (r userResp) mapToDomainEntity() *domain.UserDTO {
+	return &domain.UserDTO{
 		Handle:              r.Handle,
 		Bio:                 r.Bio,
 		SolvedCount:         r.SolvedCount,
@@ -24,16 +24,16 @@ func (r userResp) mapToDomainEntity() *domain.User {
 	}
 }
 
-func (r userProblemStatsResp) mapToDomainEntity() *domain.UserProblemStats {
-	l := make(domain.UserProblemStats, len(r))
+func (r userProblemStatsResp) mapToDomainEntity() *domain.UserProblemStatsDTO {
+	l := make(domain.UserProblemStatsDTO, len(r))
 	for i, v := range r {
 		l[i] = v.mapToDomainEntity()
 	}
 	return &l
 }
 
-func (r userProblemStatResp) mapToDomainEntity() *domain.UserProblemStat {
-	return &domain.UserProblemStat{
+func (r userProblemStatResp) mapToDomainEntity() *domain.UserProblemStatDTO {
+	return &domain.UserProblemStatDTO{
 		Level:   domain.Level(r.Level),
 		Total:   r.Total,
 		Solved:  r.Solved,
@@ -43,19 +43,19 @@ func (r userProblemStatResp) mapToDomainEntity() *domain.UserProblemStat {
 	}
 }
 
-func (r userProblemTagStatsResp) mapToDomainEntity() *domain.UserProblemTagStats {
-	l := make([]*domain.UserProblemTagStat, len(r.Items))
+func (r userProblemTagStatsResp) mapToDomainEntity() *domain.UserProblemTagStatsDTO {
+	l := make([]*domain.UserProblemTagStatDTO, len(r.Items))
 	for i, v := range r.Items {
 		l[i] = v.mapToDomainEntity()
 	}
-	return &domain.UserProblemTagStats{
+	return &domain.UserProblemTagStatsDTO{
 		Count: r.Count,
 		Items: l,
 	}
 }
 
-func (r userProblemTagStatResp) mapToDomainEntity() *domain.UserProblemTagStat {
-	return &domain.UserProblemTagStat{
+func (r userProblemTagStatResp) mapToDomainEntity() *domain.UserProblemTagStatDTO {
+	return &domain.UserProblemTagStatDTO{
 		Tag:     r.Tag.Key,
 		Total:   r.Total,
 		Solved:  r.Solved,
@@ -65,41 +65,41 @@ func (r userProblemTagStatResp) mapToDomainEntity() *domain.UserProblemTagStat {
 	}
 }
 
-func (r userTop100Resp) mapToDomainEntity() *domain.UserTop100 {
-	l := make([]*domain.Problem, len(r.Items))
+func (r userTop100Resp) mapToDomainEntity() *domain.UserTop100DTO {
+	l := make([]*domain.ProblemDTO, len(r.Items))
 	for i, v := range r.Items {
 		l[i] = v.mapToDomainEntity()
 	}
-	return &domain.UserTop100{
+	return &domain.UserTop100DTO{
 		Count: r.Count,
 		Items: l,
 	}
 }
 
-func (r problemResp) mapToDomainEntity() *domain.Problem {
-	return &domain.Problem{
+func (r problemResp) mapToDomainEntity() *domain.ProblemDTO {
+	return &domain.ProblemDTO{
 		ProblemID: r.ProblemID,
 		Level:     domain.Level(r.Level),
 	}
 }
 
-func (r problemsByTierResp) mapToDomainEntity() *domain.Problems {
-	l := make([]*domain.Problem, len(r.Items))
+func (r problemsByTierResp) mapToDomainEntity() *domain.ProblemsDTO {
+	l := make([]*domain.ProblemDTO, len(r.Items))
 	for i, v := range r.Items {
 		l[i] = v.mapToDomainEntity()
 	}
-	return &domain.Problems{
+	return &domain.ProblemsDTO{
 		Count: r.Count,
 		Items: l,
 	}
 }
 
-func (r problemsByTierAndSolvedByResp) mapToDomainEntity() *domain.Problems {
-	l := make([]*domain.Problem, len(r.Items))
+func (r problemsByTierAndSolvedByResp) mapToDomainEntity() *domain.ProblemsDTO {
+	l := make([]*domain.ProblemDTO, len(r.Items))
 	for i, v := range r.Items {
 		l[i] = v.mapToDomainEntity()
 	}
-	return &domain.Problems{
+	return &domain.ProblemsDTO{
 		Count: r.Count,
 		Items: l,
 	}
