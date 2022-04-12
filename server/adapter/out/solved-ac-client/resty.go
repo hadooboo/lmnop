@@ -116,10 +116,10 @@ func (r *RestyAdapter) GetUserTop100(userID string) (*domain.UserTop100DTO, erro
 	}
 }
 
-func (r *RestyAdapter) GetProblemsByTier(tier domain.Tier, page int) (*domain.ProblemsDTO, error) {
+func (r *RestyAdapter) GetProblemsByTier(level domain.Level, page int) (*domain.ProblemsDTO, error) {
 	var result problemsByTierResp
 	resp, err := r.client.R().
-		SetQueryString(fmt.Sprintf("query=solvable:true+tier:%v&page=%v&sort=solved&direction=desc", tier, page)).
+		SetQueryString(fmt.Sprintf("query=solvable:true+tier:%v&page=%v&sort=solved&direction=desc", level, page)).
 		ForceContentType("application/json").
 		SetResult(&result).
 		Get(pathSearchProblem)
@@ -134,10 +134,10 @@ func (r *RestyAdapter) GetProblemsByTier(tier domain.Tier, page int) (*domain.Pr
 	}
 }
 
-func (r *RestyAdapter) GetProblemsByTierAndSolvedBy(tier domain.Tier, solvedBy string, page int) (*domain.ProblemsDTO, error) {
+func (r *RestyAdapter) GetProblemsByTierAndSolvedBy(level domain.Level, solvedBy string, page int) (*domain.ProblemsDTO, error) {
 	var result problemsByTierAndSolvedByResp
 	resp, err := r.client.R().
-		SetQueryString(fmt.Sprintf("query=solvable:true+tier:%v+solved_by:%v&page=%v&sort=solved&direction=desc", tier, solvedBy, page)).
+		SetQueryString(fmt.Sprintf("query=solvable:true+tier:%v+solved_by:%v&page=%v&sort=solved&direction=desc", level, solvedBy, page)).
 		ForceContentType("application/json").
 		SetResult(&result).
 		Get(pathSearchProblem)

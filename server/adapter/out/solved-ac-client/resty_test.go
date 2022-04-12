@@ -6,7 +6,7 @@ import (
 
 	"github.com/davecgh/go-spew/spew"
 	"github.com/stretchr/testify/assert"
-	"jaehonam.com/lmnop/adapter/out/solved-ac-client"
+	solved_ac_client "jaehonam.com/lmnop/adapter/out/solved-ac-client"
 	"jaehonam.com/lmnop/domain"
 )
 
@@ -83,13 +83,13 @@ func TestGetUserTop100FailNotFoundUser(t *testing.T) {
 }
 
 func TestGetProblemsByTierSuccess(t *testing.T) {
-	problems, err := adapter.GetProblemsByTier(domain.Gold4Tier, 1)
+	problems, err := adapter.GetProblemsByTier(domain.Gold4Level, 1)
 	assert.NoError(t, err)
 	t.Log(spew.Sdump(problems))
 }
 
 func TestGetProblemsByTierAndSolvedBySuccess(t *testing.T) {
-	problems, err := adapter.GetProblemsByTierAndSolvedBy(domain.Gold4Tier, "njh21598", 1)
+	problems, err := adapter.GetProblemsByTierAndSolvedBy(domain.Gold4Level, "njh21598", 1)
 	assert.NoError(t, err)
 	t.Log(spew.Sdump(problems))
 }
