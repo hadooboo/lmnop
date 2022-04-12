@@ -1,5 +1,16 @@
 package domain
 
+type User struct {
+	Handle          string
+	SolvedCount     int64
+	Tier            Tier
+	Rating          int64
+	Class           int64
+	ClassDecoration ClassDecoration
+	MaxStreak       int64
+	Top100          []*Problem
+}
+
 type UserDTO struct {
 	Handle              string
 	Bio                 string
