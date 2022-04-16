@@ -1,6 +1,7 @@
 package application
 
 import (
+	"go.uber.org/zap"
 	"jaehonam.com/lmnop/application/port/out"
 	"jaehonam.com/lmnop/domain"
 )
@@ -16,6 +17,8 @@ func NewUserService(client out.UserPort) *UserService {
 }
 
 func (r *UserService) GetUser(userID string) (*domain.User, error) {
+	zap.S().Debugf("[service] GetUser | userID=%v", userID)
+
 	userDTO, err := r.client.GetUser(userID)
 	if err != nil {
 		return nil, err

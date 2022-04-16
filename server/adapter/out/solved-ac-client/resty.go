@@ -2,6 +2,7 @@ package solved_ac_client
 
 import (
 	"fmt"
+	"go.uber.org/zap"
 	"net/http"
 
 	"github.com/go-resty/resty/v2"
@@ -11,8 +12,6 @@ import (
 
 const (
 	baseURL = "https://solved.ac/api/v3"
-
-	defaultRetryCount = 3
 
 	pathGetUser                = "/user/show"
 	pathGetUserProblemStats    = "/user/problem_stats"
@@ -29,10 +28,27 @@ type RestyAdapter struct {
 var _ = out.Port(&RestyAdapter{})
 
 func NewRestyAdapter() *RestyAdapter {
+	onAfterResponseCallback := func(_ *resty.Client, response *resty.Response) error {
+		log := fmt.Sprintf("[resty] %v %v | latency=%v, statusCode=%v, bodySize=%v",
+			response.Request.Method, response.Request.URL, response.Time(), response.StatusCode(), response.Size())
+		switch {
+		case response.IsSuccess():
+			zap.L().Debug(log)
+		default:
+			zap.L().Info(log)
+		}
+		return nil
+	}
+	onErrorCallback := func(request *resty.Request, err error) {
+		log := fmt.Sprintf("[resty] %v %v | error=%v", request.Method, request.URL, err)
+		zap.L().Error(log)
+	}
+
 	return &RestyAdapter{
 		client: resty.New().
 			SetBaseURL(baseURL).
-			SetRetryCount(defaultRetryCount),
+			OnAfterResponse(onAfterResponseCallback).
+			OnError(onErrorCallback),
 	}
 }
 

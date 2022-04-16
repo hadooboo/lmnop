@@ -1,6 +1,7 @@
 package application
 
 import (
+	"go.uber.org/zap"
 	"jaehonam.com/lmnop/application/port/out"
 	"jaehonam.com/lmnop/domain"
 )
@@ -16,6 +17,8 @@ func NewProblemService(client out.ProblemPort) *ProblemService {
 }
 
 func (r *ProblemService) GetOptimumProblem(userID string, level domain.Level, except []int64) (*domain.Problem, error) {
+	zap.S().Debugf("[service] GetOptimumProblem | userID=%v, level=%v, except=%v", userID, level, except)
+
 	return newOptimumProblemFinder(r.client, userID, level, except).FindOptimumProblem()
 }
 

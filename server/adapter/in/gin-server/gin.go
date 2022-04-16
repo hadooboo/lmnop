@@ -2,11 +2,14 @@ package gin_server
 
 import (
 	"fmt"
+	"io"
 	"net/http"
 	"strconv"
 	"strings"
 
 	"github.com/gin-gonic/gin"
+	"go.uber.org/zap"
+	"go.uber.org/zap/zapio"
 	"jaehonam.com/lmnop/application/port/in"
 	"jaehonam.com/lmnop/domain"
 )
@@ -15,17 +18,41 @@ type GinAPIServer struct {
 	server  *gin.Engine
 	service in.Query
 	port    int
+
+	defaultLogWriter  io.Writer
+	recoveryLogWriter io.Writer
 }
 
 func NewGinAPIServer(service in.Query, port int) *GinAPIServer {
+	defaultLogWriter := &zapio.Writer{
+		Log:   zap.L(),
+		Level: zap.InfoLevel,
+	}
+	recoveryLogWriter := &zapio.Writer{
+		Log:   zap.L(),
+		Level: zap.ErrorLevel,
+	}
+	logFormatter := func(params gin.LogFormatterParams) string {
+		return fmt.Sprintf("[gin] %v %v | latency=%v, statusCode=%v, cliendIP=%v\n",
+			params.Method, params.Path, params.Latency, params.StatusCode, params.ClientIP)
+	}
+
 	gin.SetMode(gin.ReleaseMode)
 	r := gin.New()
-	r.Use(gin.Recovery())
+	r.Use(gin.LoggerWithConfig(gin.LoggerConfig{
+		Formatter: logFormatter,
+		Output:    defaultLogWriter,
+	}))
+	r.Use(gin.RecoveryWithWriter(
+		recoveryLogWriter,
+	))
 
 	server := &GinAPIServer{
-		server:  r,
-		service: service,
-		port:    port,
+		server:            r,
+		service:           service,
+		port:              port,
+		defaultLogWriter:  defaultLogWriter,
+		recoveryLogWriter: recoveryLogWriter,
 	}
 	server.initRouter()
 
