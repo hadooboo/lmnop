@@ -1,5 +1,5 @@
-import 'package:app/landing_view.dart';
-import 'package:app/landing_view_model.dart';
+import 'package:lmnop/landing_view.dart';
+import 'package:lmnop/landing_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
