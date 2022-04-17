@@ -55,7 +55,7 @@ var (
 )
 
 func setUp() {
-	server = gin_server.NewGinAPIServer(&mockQuery{}, 8080)
+	server = gin_server.NewGinAPIServer(&mockQuery{})
 }
 
 func TestMain(m *testing.M) {

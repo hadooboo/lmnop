@@ -1,9 +1,11 @@
 package gin_server
 
 import (
+	"errors"
 	"fmt"
 	"io"
 	"net/http"
+	"os"
 	"strconv"
 	"strings"
 
@@ -17,13 +19,12 @@ import (
 type GinAPIServer struct {
 	server  *gin.Engine
 	service in.Query
-	port    int
 
 	defaultLogWriter  io.Writer
 	recoveryLogWriter io.Writer
 }
 
-func NewGinAPIServer(service in.Query, port int) *GinAPIServer {
+func NewGinAPIServer(service in.Query) *GinAPIServer {
 	defaultLogWriter := &zapio.Writer{
 		Log:   zap.L(),
 		Level: zap.InfoLevel,
@@ -50,7 +51,6 @@ func NewGinAPIServer(service in.Query, port int) *GinAPIServer {
 	server := &GinAPIServer{
 		server:            r,
 		service:           service,
-		port:              port,
 		defaultLogWriter:  defaultLogWriter,
 		recoveryLogWriter: recoveryLogWriter,
 	}
@@ -68,7 +68,12 @@ func (r *GinAPIServer) initRouter() {
 }
 
 func (r *GinAPIServer) Serve() error {
-	return r.server.Run(fmt.Sprintf(":%v", r.port))
+	port := os.Getenv("PORT")
+	if port == "" {
+		return errors.New("cannot find $PORT")
+	}
+
+	return r.server.Run(fmt.Sprintf(":%v", port))
 }
 
 func (r *GinAPIServer) ServeHTTP(w http.ResponseWriter, req *http.Request) {

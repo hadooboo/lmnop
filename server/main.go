@@ -53,7 +53,7 @@ func initService(restyAdapter *solved_ac_client.RestyAdapter) *application.Servi
 }
 
 func initAPIServer(service *application.Service) *gin_server.GinAPIServer {
-	return gin_server.NewGinAPIServer(service, 8080)
+	return gin_server.NewGinAPIServer(service)
 }
 
 func runServer(server *gin_server.GinAPIServer) {
