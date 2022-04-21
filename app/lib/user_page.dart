@@ -11,7 +11,7 @@ class UserPage extends StatelessWidget {
     dynamic arguments = ModalRoute.of(context)?.settings.arguments as Map;
 
     return ChangeNotifierProvider(
-      create: (_) => UserViewModel(arguments['userID']),
+      create: (context) => UserViewModel(context, arguments['userID']),
       child: UserView(),
     );
   }
