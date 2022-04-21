@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:lmnop/routes.dart';
 import 'package:flutter/material.dart';
 
@@ -10,6 +11,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     return MaterialApp(
       title: 'My Optimum Problem',
       theme: ThemeData(
